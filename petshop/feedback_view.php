@@ -1,0 +1,109 @@
+<?php 
+session_start();
+require "Connection.php";
+if(!isset($_SESSION["uid"]))
+{
+	header("location:index.php");
+}
+?>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Online Pet Shop</title>
+		<link rel="stylesheet" href="css/bootstrap.min.css"/>		
+		<script src="js/jquery-2.2.2.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/main.js"></script>
+	</head>
+<body style="background-image:url(images/1.jpg);">
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a href="MasterAdmin.php" class="navbar-brand">Online Pet Shop</a>
+			</div>
+			<ul class="nav navbar-nav">
+				
+				<li><a href="products.php">Pet Master</a></li>	
+					
+				<li><a href="orders_view.php">Order List</a></li>
+				<li><a href="delivery_view.php">Delivery</a></li>
+				<li><a href="delivery_list.php">Delivery List</a></li>
+				<li><a href="feedback_view.php">Feedbacks</a></li>				
+				<li><a href="logout.php">Log Out</a></li>			
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+
+				</li>
+			</ul>			
+		</div>
+	</div>
+	<p><br></p>
+	
+	<p><br></p>
+	<div class="container-fluid">
+		<div class="row">
+			
+
+			<div class="col-md-12">
+				
+				<div class="panel panel-primary">
+					<div class="panel-heading">Online Pet Shop - Feedbacks From Clients</div>
+					<div class="panel-body" style="background-color:#EEE8AA;"> 
+						<form method="post">
+					
+									
+			<table class="table table-striped table-hover table-bordered">
+				<thead class="thead-dark">
+					<tr>
+					<th>Feedback Id</th>
+						<th>User Name</th>
+						
+						<th>Mobile</th>
+						
+						<th>Feedbacks</th>
+						
+					</tr>
+				</thead>
+				<tbody>
+					<?php 
+						$results = mysqli_query($con,"select * from feedbacks");
+						while ($row=mysqli_fetch_array($results))
+						{
+							?>
+							<tr>
+								<td><?php echo $row['fid']; ?></td>
+								
+								<td><?php echo $row['Name']; ?></td>
+								
+								<td><?php echo $row['Mobile']; ?></td>
+								<td><?php echo $row['feedback']; ?></td>
+								
+																								
+							</tr>							
+					<?php 
+						}
+					?>
+
+				</tbody>
+			</table>						
+					
+											
+																		
+						<p></br></p>
+																								
+						</div>
+					</form>
+					<?php include_once("footer.php");?>
+				</div>
+				
+			</div>
+			
+		</div>
+	</div>
+</body>
+</html>
+
+	
+	
+	

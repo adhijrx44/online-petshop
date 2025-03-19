@@ -1,0 +1,123 @@
+<?php 
+session_start();
+require "Connection.php";
+if(!isset($_SESSION["uid"]))
+{
+	header("location:index.php");
+}
+?>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Fertilizers And Pesticides Management</title>
+		<link rel="stylesheet" href="css/bootstrap.min.css"/>		
+		<script src="js/jquery-2.2.2.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/main.js"></script>
+	</head>
+<body style="background-image:url(images/45.jpg);">
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a href="MasterAdmin.php" class="navbar-brand">Fertilizers And Pesticides Management</a>
+			</div>
+			<ul class="nav navbar-nav">
+				
+				<li><a href="products.php">Products</a></li>	
+				<li><a href="product_details.php">Product Details</a></li>	
+				<li><a href="orders_view.php">Order List</a></li>							
+				<li><a href="feedback_view.php">Feedbacks</a></li>				
+				<li><a href="logout.php">Log Out</a></li>			
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+
+				</li>
+			</ul>			
+		</div>
+	</div>
+	
+	
+	<p><br></p>
+	<div class="container-fluid">
+		<div class="row">
+		<img src="images/12.jpg" style="height:100px;width:100%;margin:0;"></img>
+			
+
+			<div class="col-md-12">
+				
+				<div class="panel panel-primary">
+					<div class="panel-heading"  style="color:yellow;background-color:#000;"><h4 align="center">Product Details</h4></div>
+					<div class="panel-body"> 
+						<form method="post">
+					
+									
+			<table class="table table-striped table-bordered">
+				<thead class="thead-dark">
+					<tr>
+						<th>Product Id</th>
+						<th>Product Name</th>
+						<th>Brand Name</th>
+						<th>Price</th>
+						<th>Descriptions</th>
+						
+						<th>Product Image</th>						
+						
+						
+						
+						
+					</tr>
+				</thead>
+				<tbody>
+					<?php 
+						$results = mysqli_query($con,"select * from products");
+						while ($row=mysqli_fetch_array($results))
+						{
+							?>
+							<tr>
+								<td><?php echo $row['id']; ?></td>
+								
+								<td><?php echo $row['ProductName']; ?></td>
+								
+								<td><?php echo $row['BrandName']; ?></td>
+								<td><?php echo $row['Price']; ?></td>
+								<td><?php echo $row['Description']; ?></td>
+															
+								<td><img src='uploads/<?php echo $row['image_type']; ?>' style='width:120px; height:100px;'/></td>															
+																								
+							</tr>							
+					<?php 
+						}
+					?>
+
+				</tbody>
+			</table>						
+					
+											
+																		
+						<p></br></p>
+																								
+						</div>
+					</form>
+					<footer class="panel-footer" style="background-color:#000;color:yellow;">
+						<center>
+						<p class="imp">thank you for visiting our site...</p>
+				<p class="imp">contact us on:8072968368 , e-mail:kathir@gmail.com</p>
+				 <p class="imp">follow us on:</p>
+				 
+				  <a href="https://en-gb.facebook.com/" class="fa fa-facebook">facebook</a>
+				  <a href="https://twitter.com/login?lang=en" class="fa fa-twitter">twitter</a>
+				  <a href="https://www.instagram.com/accounts/login/" class="fa fa-instagram">instagram</a></center>
+				 </footer>
+				</div>
+				
+			</div>
+			
+		</div>
+	</div>
+</body>
+</html>
+
+	
+	
+	

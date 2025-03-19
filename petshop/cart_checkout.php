@@ -1,0 +1,182 @@
+<?php 
+session_start();
+include "Connection.php";
+$txtuname = $_SESSION["uname"];
+$cid = $_SESSION["uid"];				
+				
+if(!isset($_SESSION["uid"]))
+{
+	header("location:index.php");
+}
+if(isset($_POST['btncst']))
+{
+	
+$txtclientname	= 	$_POST['txtclientname'];
+$txtaddress	= 	$_POST['txtaddress'];
+$txtcardno	= 	$_POST['txtcardno'];
+$txtcvv	= 	$_POST['txtcvv'];
+$txtexpyear	= 	$_POST['txtexpyear'];
+$txtmobile	= 	$_POST['txtmobile'];
+$txtmonth	= 	$_POST['txtmonth'];
+$txtamnt	= 	$_POST['txtamnt'];
+$txtuid = $_SESSION["uid"];
+
+
+		$sql = "insert into cart_checkout set 						
+						InvId		=	NULL,
+						ClientName		=	'$txtclientname',
+						ClientId		=	'$txtuid',
+						Address		=	'$txtaddress',
+						Mobile		=	'$txtmobile',
+						
+						NetAmnt	=	'$txtamnt'";
+
+$txtuname1 = $_SESSION["uname"];
+$cid1 = $_SESSION["uid"];				
+						
+		$sql1 = "delete  from cart where ClientId='$cid1' and Client_User_Name='$txtuname1'";
+	
+		if(mysqli_query($con,$sql)) 
+		{
+			if(mysqli_query($con,$sql1))
+			{
+						header("location:Thanku.php");
+			}
+			else
+			{
+				echo "
+					<div class='alert alert-warning'>
+						<a href='#' class='close' data-dismiss='alert' arial-label='close'>&times;</a>
+						<b>Failed</b>
+					</div>
+				";
+			}
+		}
+
+}
+
+?>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Online Pet Shop</title>
+		<link rel="stylesheet" href="css/bootstrap.min.css"/>		
+		<script src="js/jquery-2.2.2.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/main.js"></script>
+	</head>
+<body style="background-image:url(images/1.jpg);">
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a href="Masteruser.php" class="navbar-brand">Online Pet Shop</a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li><a href="Masteruser.php">Home</a></li>				
+				<li><a href="cart_details.php">Order Details</a></li>	
+				<li><a href="feedback.php">Feedbacks</a></li>				
+				<li><a href="logout.php">Log out</a></li>	
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				
+				<li><a href="#"><?php echo "Hi ".$_SESSION["uname"]; ?></a></li>			
+			</ul>			
+		</div>
+	</div>
+	
+	
+	<div class="container-fluid">
+		<div class="row">
+			
+
+			<div class="col-md-12">
+				
+				
+				
+				<?php
+
+$sqlquery = "select sum(Model_Price) from cart where ClientId='$cid' and Client_User_Name='$txtuname'";
+$result = mysqli_query($con,$sqlquery);
+$norow=mysqli_num_rows($result);
+			
+			if($norow>0)
+			{
+				$row=mysqli_fetch_array($result);
+				$tot_amnt= $row[0];
+			}
+
+
+?>
+
+
+				<h2 align="center" style="color:#;">Online Pet Shop</h2>
+				<div class="panel panel-info">
+					<div class="panel-heading"><b>Purchased Order Checkout For Invoice Amount : <b>RS- <?php echo $tot_amnt; ?></b><br>Delivery Mode - COD (Cash On Delivery)</div>
+						<div class="panel-body" style="background-color:#FFcccc">
+						<form method="post">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="row">	
+											<div class="col-md-12">
+												<label for="Name">Invoice Amnt</label>
+								<input type="text" id="txtamnt" name="txtamnt" class="form-control" value="<?php echo $tot_amnt; ?>" readonly	>
+											</div>
+									</div>
+							<div class="row">	
+							<div class="col-md-6">
+								<label for="Name">Client Name</label>
+								<input type="text" id="txtclientname" name="txtclientname" class="form-control" value="<?php echo $_SESSION["uname"]; ?>" readonly	>
+							</div>
+							<div class="col-md-6">
+								<label for="Name">Mobile</label>
+								<input type="text" id="txtmobile" name="txtmobile" class="form-control" required>
+							</div>							
+							<div>
+							<div class="row">	
+							
+							<div class="col-md-12">
+								<label for="Name">Address</label>
+								<input type="text" id="txtaddress" name="txtaddress" class="form-control" required>
+							</div>
+
+							</div>
+							
+							
+							
+							<div class="row">	
+							
+
+							</div>							
+
+
+
+
+							
+							<p><br></p>
+							<div class="row">	
+							<div class="col-md-5"></div>
+								<div class="col-md-4">
+									<button id="btncst"  name="btncst" class="btn btn-success btn-md">Submit</button>
+								</div>
+							</div>
+								
+								
+							
+							<div id="cart_checkout"></div>
+</div>
+
+						</div>
+						</form>
+				</div>
+			</div>
+			
+		</div>
+		
+	</div>
+	<?php include_once("footer.php");?>
+</div>
+</div>
+</body>
+</html>
+
